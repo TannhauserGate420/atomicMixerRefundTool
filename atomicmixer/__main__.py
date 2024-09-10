@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import sys, requests, emoji, json, pickle
+import sys, requests, emoji, json, pickle, sysconfig
 
 from bitcoin import SelectParams
 from bitcoin.wallet import CBitcoinAddress, CBitcoinSecret
@@ -58,7 +58,8 @@ class Output(QWidget):
         super(Output, self).__init__()
 
         # get image path
-        _image_path = f'{Path().absolute()}/atomicmixer/images'
+        _get_path = sysconfig.get_paths()
+        _image_path = f"{_get_path['purelib']}/atomicmixer/images"
 
         self._output_start = True if 'start' in kwargs  and kwargs['start'] else False
         self._output_refund_data = True if 'output_refund_data' in kwargs and kwargs['output_refund_data'] else False
