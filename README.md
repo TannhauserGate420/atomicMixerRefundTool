@@ -11,7 +11,7 @@ atomicmixer
 
 ## Walkthrough
 
-1. **If something went wrong (amount to low in this case) simply refund your sats:**
+1. **If something went wrong (amount to low in this case) simply refund your sats!**
 
    ![refund1](https://github.com/TannhauserGate420/atomicMixerRefundTool/blob/main/atomicmixer/images/refund_1.jpg)
 
@@ -37,7 +37,11 @@ atomicmixer
 
 ## Refund transaction:
 
-   [Mempool.space](https://mempool.space/)
+   [mempool.space](https://mempool.space/tx/68ccff69c32ff0a5d1fc2b1b7374d036dd1b6c0ecbdc2dcf90d1f71ac7425e61)
+
+## Dependency:
+
+   This tool depends at the [Mempool API](https://mempool.space/docs/api/rest) to fetch the actual network fees/blockheight and to broadcast the transaction.
 
 ## Donations
 
