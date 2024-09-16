@@ -277,29 +277,9 @@ class MainWindow(QMainWindow):
             _broadcast_url = "https://mempool.space/api/tx"
 
         try:
-            # generate random headers
-            _fake_header = FakeHttpHeader(domain_name = 'uk')
-            _header = _fake_header.as_header_dict()
-
-            # get current fees
-            _res_fee = requests.get(url = _fee_url, headers = _header, timeout = 20)
-            _res_fee = _res_fee.json()
-            _fee_per_byte = _res_fee['fastestFee']
-
             # get current blockheight
             _res_blockheight = requests.get(url = _blockheight_url, headers = _header, timeout = 20)
             _current_blockheight = _res_blockheight.json()
-
-            # prepare addresses
-            _clean_sender_address = CBitcoinAddress(self._refund_data['sending_address'])
-            _clean_receiver_address = CBitcoinAddress(self._refund_data['receiving_address'])
-
-            # get redeem script
-            _preimage_bytes = bytes.fromhex(self._refund_data['secret_hex'])
-            _btc_redeem_script = self._handle_btc.get_redeem_script(self._refund_data['refund_blockheight'], _preimage_bytes, _clean_sender_address, _clean_receiver_address)
-
-            # generate refund tx
-            _btc_refund = self._handle_btc.refund(self._refund_data['funding_txid'], self._refund_data['funding_vout'], self._refund_data['funding_amount'], _fee_per_byte, _clean_sender_address, self._refund_data['refund_blockheight'], _btc_redeem_script[3], privkey)
 
             # get blockheight diff
             _diff_blockheight = int(self._refund_data['refund_blockheight'] - _current_blockheight)
@@ -313,6 +293,27 @@ class MainWindow(QMainWindow):
                 _okBox.setText(f"< p align = 'center'>REFUND BLOCKHEIGHT NOT REACHED!</p><p>CURRENT BLOCKHEIGHT: {_current_blockheight:,}</p><p>DIFFERENCE: {_diff_blockheight} BLOCKS</p>")
                 _res = _okBox.exec()
             else:
+                # generate random headers
+                _fake_header = FakeHttpHeader(domain_name = 'uk')
+                _header = _fake_header.as_header_dict()
+
+                # get current fees
+                _res_fee = requests.get(url = _fee_url, headers = _header, timeout = 20)
+                _res_fee = _res_fee.json()
+                _fee_per_byte = _res_fee['fastestFee']
+
+                # prepare addresses
+                _clean_sender_address = CBitcoinAddress(self._refund_data['sending_address'])
+                _clean_receiver_address = CBitcoinAddress(self._refund_data['receiving_address'])
+
+                # get redeem script
+                _preimage_bytes = bytes.fromhex(self._refund_data['secret_hex'])
+                _btc_redeem_script = self._handle_btc.get_redeem_script(self._refund_data['refund_blockheight'], _preimage_bytes, _clean_sender_address, _clean_receiver_address)
+
+                # generate refund tx
+                _btc_refund = self._handle_btc.refund(self._refund_data['funding_txid'], self._refund_data['funding_vout'], self._refund_data['funding_amount'], _fee_per_byte, _clean_sender_address, self._refund_data['refund_blockheight'], _btc_redeem_script[3], privkey)
+
+                # broadcast transaction
                 _res_broadcast = requests.post(url = _broadcast_url, data = _btc_refund[0], headers = _header)
                 _refund = _res_broadcast.text
                 _refund_success = False if 'error' in _refund else True

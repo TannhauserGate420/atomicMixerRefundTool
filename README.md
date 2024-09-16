@@ -41,7 +41,7 @@ atomicmixer
 
 ## Dependency:
 
-   This tool depends at the [Mempool API](https://mempool.space/docs/api/rest) to fetch the actual network fees/blockheight and to broadcast the transaction.
+   **This tool depends at the [Mempool API](https://mempool.space/docs/api/rest) to fetch the actual network fees/blockheight and to broadcast the transaction.**
 
 ## Donations
 
