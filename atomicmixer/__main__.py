@@ -277,12 +277,17 @@ class MainWindow(QMainWindow):
             _broadcast_url = "https://mempool.space/api/tx"
 
         try:
+            # generate random headers
+            _fake_header = FakeHttpHeader(domain_name = 'uk')
+            _header = _fake_header.as_header_dict()
+
             # get current blockheight
             _res_blockheight = requests.get(url = _blockheight_url, headers = _header, timeout = 20)
             _current_blockheight = _res_blockheight.json()
 
             # get blockheight diff
             _diff_blockheight = int(self._refund_data['refund_blockheight'] - _current_blockheight)
+            print("\n diff blockheight: ", _diff_blockheight)
 
             if _diff_blockheight > 0:
                 _okBox = QMessageBox()
@@ -293,10 +298,6 @@ class MainWindow(QMainWindow):
                 _okBox.setText(f"< p align = 'center'>REFUND BLOCKHEIGHT NOT REACHED!</p><p>CURRENT BLOCKHEIGHT: {_current_blockheight:,}</p><p>DIFFERENCE: {_diff_blockheight} BLOCKS</p>")
                 _res = _okBox.exec()
             else:
-                # generate random headers
-                _fake_header = FakeHttpHeader(domain_name = 'uk')
-                _header = _fake_header.as_header_dict()
-
                 # get current fees
                 _res_fee = requests.get(url = _fee_url, headers = _header, timeout = 20)
                 _res_fee = _res_fee.json()
