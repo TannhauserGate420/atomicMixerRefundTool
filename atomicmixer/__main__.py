@@ -287,8 +287,7 @@ class MainWindow(QMainWindow):
 
             # get blockheight diff
             _diff_blockheight = int(self._refund_data['refund_blockheight'] - _current_blockheight)
-            print("\n diff blockheight: ", _diff_blockheight)
-
+            
             if _diff_blockheight > 0:
                 _okBox = QMessageBox()
                 _okBox.setIcon(QMessageBox.Information)
