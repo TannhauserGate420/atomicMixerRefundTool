@@ -15,7 +15,7 @@ from fake_http_header import FakeHttpHeader
 from pathlib import Path
 
 NETWORK = str('mainnet') # set network (mainnet/testnet)
-VERSION = str('v0.1.4-beta') # current version
+VERSION = str('v0.1.5-beta') # current version
 VERIFICATIONBLOCKHEIGHT = str('00000000000000000002290b1b6f46ac3a330e94de56415b8d63ee750a46f864') # 861538
 
 class BTCScript():
